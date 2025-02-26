@@ -61,6 +61,7 @@ export const Italian: CustomLocale = {
   toggleTitle: "Clicca per cambiare",
   time_24hr: true,
   yearAriaLabel: "anno", 
+  
 };
 
 fp.l10ns.it = Italian;
