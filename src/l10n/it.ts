@@ -58,9 +58,9 @@ export const Italian: CustomLocale = {
   rangeSeparator: " al ",
   weekAbbreviation: "Se",
   scrollTitle: "Scrolla per aumentare",
-  yearAriaLabel: "anno", 
   toggleTitle: "Clicca per cambiare",
-  time_24hr: true, 
+  time_24hr: true,
+  yearAriaLabel: "rok", 
 };
 
 fp.l10ns.it = Italian;
