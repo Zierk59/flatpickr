@@ -139,7 +139,16 @@ By default, Flatpickr utilizes native datetime widgets unless certain options (e
   errorHandler: (e: Error) => void;
 
   /* Allows using a custom date formatting function instead of the built-in. Generally unnecessary.  */
-  formatDate: (date: Date, format: string, locale: Locale) => string;
+  formatDate: (
+    date: Date,
+    format: string,
+    locale: Locale,
+    formatSecondsPrecision: BaseOptions["formatSecondsPrecision"]
+  ) => string;
+
+  /* Fractional seconds precision (used only when seconds are present in the format).
+   */
+  formatSecondsPrecision: -1 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
   /* If "weekNumbers" are enabled, this is the function that outputs the week number for a given dates, optionally along with other text  */
   getWeek: (date: Date) => string | number;
@@ -170,8 +179,7 @@ By default, Flatpickr utilizes native datetime widgets unless certain options (e
   /* The minimum time that a user can start picking from (inclusive). */
   minTime: DateOption;
 
-  /* Adjusts the step for the minute input (incl. scrolling)
-  Defaults to 5 */
+  /* Adjusts the step for the minute input (incl. scrolling) */
   minuteIncrement: number;
 
   /* Date selection mode, defaults to "single" */
@@ -225,7 +233,12 @@ Use it along with "enableTime" to create a time picker. */
   onPreCalendarPosition: Hook | Hook[];
 
   /* A custom datestring parser */
-  parseDate: (date: string, format: string) => Date;
+  parseDate: (
+    date: string | Date,
+    format: string,
+    timeless: boolean,
+    locale: Locale
+  ) => Date | undefined;
 
   /* Plugins. See https://chmln.github.io/flatpickr/plugins/ */
   plugins: Plugin[];
@@ -254,6 +267,9 @@ Use it along with "enableTime" to create a time picker. */
 
   /* HTML for the left arrow icon, used to switch months. */
   prevArrow: string;
+
+  /* Adjusts the step for the second input (incl. scrolling) */
+  secondIncrement: number;
 
   /* Whether to display the current month name in shorthand mode, e.g. "Sep" instead "September" */
   shorthandCurrentMonth: boolean;
@@ -310,6 +326,7 @@ export interface ParsedOptions {
   enableTime: boolean;
   errorHandler: (err: Error) => void;
   formatDate?: Options["formatDate"];
+  formatSecondsPrecision: BaseOptions["formatSecondsPrecision"];
   getWeek: (date: Date) => string | number;
   hourIncrement: number;
   ignoredFocusElements: HTMLElement[];
@@ -342,6 +359,7 @@ export interface ParsedOptions {
   position: BaseOptions["position"];
   positionElement?: HTMLElement;
   prevArrow: string;
+  secondIncrement: number;
   shorthandCurrentMonth: boolean;
   showMonths: number;
   static: boolean;
@@ -378,6 +396,7 @@ export const defaults: ParsedOptions = {
   enableTime: false,
   errorHandler: (err: Error) =>
     typeof console !== "undefined" && console.warn(err),
+  formatSecondsPrecision: 0,
   getWeek: (givenDate: Date) => {
     const date = new Date(givenDate.getTime());
     date.setHours(0, 0, 0, 0);
@@ -392,7 +411,7 @@ export const defaults: ParsedOptions = {
     return (
       1 +
       Math.round(
-        ((date.getTime() - week1.getTime()) / 86400000 -
+        ((date.getTime() - week1.getTime()) / 86_400_000 -
           3 +
           ((week1.getDay() + 6) % 7)) /
           7
@@ -403,7 +422,7 @@ export const defaults: ParsedOptions = {
   ignoredFocusElements: [],
   inline: false,
   locale: "default",
-  minuteIncrement: 5,
+  minuteIncrement: 1,
   mode: "single",
   monthSelectorType: "dropdown",
   nextArrow:
@@ -427,6 +446,7 @@ export const defaults: ParsedOptions = {
   positionElement: undefined,
   prevArrow:
     "<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 17 17'><g></g><path d='M5.207 8.471l7.146 7.147-0.707 0.707-7.853-7.854 7.854-7.853 0.707 0.707-7.147 7.146z' /></svg>",
+  secondIncrement: 1,
   shorthandCurrentMonth: false,
   showMonths: 1,
   static: false,
