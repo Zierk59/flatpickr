@@ -94,6 +94,12 @@ export interface BaseOptions {
   conjunction: string;
 
   /*
+    If "mode" is "range" and rangeConjunction is set, this string will be used to join
+    selected dates together for the date input value.
+  */
+  rangeConjunction: null | string;
+
+  /*
     A string of characters which are used to define how the date will be displayed in the input box.
     See https://chmln.github.io/flatpickr/formatting
   */
@@ -280,6 +286,7 @@ export interface ParsedOptions {
   allowInput: boolean;
   allowInvalidPreload: boolean;
   altFormat: string;
+  focusOutTriggerChange: boolean;
   altInput: boolean;
   altInputClass: string;
   animate: boolean;
@@ -289,7 +296,9 @@ export interface ParsedOptions {
   clickOpens: boolean;
   closeOnSelect: boolean;
   conjunction: string;
+  rangeConjunction: null | string;
   dateFormat: string;
+  debouncedChangeMs: number;
   defaultDate?: Date | Date[];
   defaultHour: number;
   defaultMinute: number;
@@ -346,6 +355,7 @@ export const defaults: ParsedOptions = {
   allowInput: false,
   allowInvalidPreload: false,
   altFormat: "F j, Y",
+  focusOutTriggerChange: false,
   altInput: false,
   altInputClass: "form-control input",
   animate:
@@ -356,7 +366,9 @@ export const defaults: ParsedOptions = {
   clickOpens: true,
   closeOnSelect: true,
   conjunction: ", ",
+  rangeConjunction: null,
   dateFormat: "Y-m-d",
+  debouncedChangeMs: 300,
   defaultHour: 12,
   defaultMinute: 0,
   defaultSeconds: 0,
