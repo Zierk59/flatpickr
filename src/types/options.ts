@@ -170,8 +170,7 @@ By default, Flatpickr utilizes native datetime widgets unless certain options (e
   /* The minimum time that a user can start picking from (inclusive). */
   minTime: DateOption;
 
-  /* Adjusts the step for the minute input (incl. scrolling)
-  Defaults to 5 */
+  /* Adjusts the step for the minute input (incl. scrolling) */
   minuteIncrement: number;
 
   /* Date selection mode, defaults to "single" */
@@ -254,6 +253,9 @@ Use it along with "enableTime" to create a time picker. */
 
   /* HTML for the left arrow icon, used to switch months. */
   prevArrow: string;
+
+  /* Adjusts the step for the second input (incl. scrolling) */
+  secondIncrement: number;
 
   /* Whether to display the current month name in shorthand mode, e.g. "Sep" instead "September" */
   shorthandCurrentMonth: boolean;
@@ -342,6 +344,7 @@ export interface ParsedOptions {
   position: BaseOptions["position"];
   positionElement?: HTMLElement;
   prevArrow: string;
+  secondIncrement: number;
   shorthandCurrentMonth: boolean;
   showMonths: number;
   static: boolean;
@@ -403,7 +406,7 @@ export const defaults: ParsedOptions = {
   ignoredFocusElements: [],
   inline: false,
   locale: "default",
-  minuteIncrement: 5,
+  minuteIncrement: 1,
   mode: "single",
   monthSelectorType: "dropdown",
   nextArrow:
@@ -427,6 +430,7 @@ export const defaults: ParsedOptions = {
   positionElement: undefined,
   prevArrow:
     "<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 17 17'><g></g><path d='M5.207 8.471l7.146 7.147-0.707 0.707-7.853-7.854 7.854-7.853 0.707 0.707-7.147 7.146z' /></svg>",
+  secondIncrement: 1,
   shorthandCurrentMonth: false,
   showMonths: 1,
   static: false,
