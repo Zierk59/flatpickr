@@ -849,7 +849,7 @@ describe("flatpickr", () => {
         expect(fp.isOpen).toBe(true);
 
         simulate("focus", fp._input);
-        simulate("keydown", fp._input, {  // Use lowercase "keydown" not "keyDown"
+        simulate("keydown", fp._input, {
           key: "Backspace", 
           keyCode: 8, 
           which: 8 
