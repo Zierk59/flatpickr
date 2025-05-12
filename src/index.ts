@@ -2827,8 +2827,14 @@ function FlatpickrInstance(
       .join(
         self.config.mode !== "range"
           ? self.config.conjunction
-          : self.l10n.rangeSeparator
+          : getDateRangeSeparator()
       );
+  }
+
+  function getDateRangeSeparator() {
+    return typeof self.config.rangeConjunction === "string"
+      ? self.config.rangeConjunction
+      : self.l10n.rangeSeparator;
   }
 
   /**
