@@ -2301,6 +2301,7 @@ function FlatpickrInstance(
       const sheet = document.styleSheets[i] as CSSStyleSheet;
       try {
         if (!sheet.cssRules) continue;
+        sheet.cssRules;
       } catch (err) {
         continue;
       }
