@@ -1482,7 +1482,7 @@ function FlatpickrInstance(
     });
   }
 
-  function isCalendarElem(elem: HTMLElement) {
+  function isCalendarElem(elem: Element) {
     return self.calendarContainer.contains(elem);
   }
 
@@ -1664,6 +1664,21 @@ function FlatpickrInstance(
           : self.config.dateFormat
       );
     }
+
+    setTimeout(function () {
+      // timeout is needed for document.activeElement to be the element after blur
+      if (self.isOpen) {
+        const activeElement = getClosestActiveElement();
+        if (
+          activeElement &&
+          activeElement !== self.input &&
+          activeElement !== self.altInput &&
+          !isCalendarElem(activeElement)
+        ) {
+          documentClick({ target: null } as MouseEvent);
+        }
+      }
+    }, 0);
   }
 
   function onKeyDown(e: KeyboardEvent) {
