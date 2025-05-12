@@ -2915,6 +2915,10 @@ function FlatpickrInstance(
           : "";
     }
 
+    if (self.selectedDates.length === 0) {
+        return;
+    }
+
     self.input.value = getDateStr(self.config.dateFormat);
 
     if (self.altInput !== undefined) {
