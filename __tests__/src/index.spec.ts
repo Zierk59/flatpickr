@@ -340,6 +340,24 @@ describe("flatpickr", () => {
         expect(date.getTime()).toEqual(Date.parse("2016-12-27T16:16:22.585Z"));
       });
 
+      it("should parse string month lowercase", () => {
+        createInstance({
+          defaultDate: "03 february 2025",
+          dateFormat: "d F Y"
+        });
+
+        expect(fp.selectedDates[0]).toEqual(new Date("2025-02-03T00:00:00"));
+      });
+
+      it("should parse string month uppercase", () => {
+        createInstance({
+          defaultDate: "03 May 2025",
+          dateFormat: "d F Y"
+        });
+
+        expect(fp.selectedDates[0]).toEqual(new Date("2025-05-03T00:00:00"));
+      });
+
       it("should parse string with unicode characters", () => {
         createInstance({
           defaultDate: "03 février 2021",
@@ -828,8 +846,15 @@ describe("flatpickr", () => {
           CustomEvent
         );
         expect(fp.selectedDates.length).toBe(1);
+        expect(fp.isOpen).toBe(true);
 
-        fp.isOpen = true;
+        simulate("focus", fp._input);
+        simulate("keydown", fp._input, {  // Use lowercase "keydown" not "keyDown"
+          key: "Backspace", 
+          keyCode: 8, 
+          which: 8 
+        });
+
         simulate("mousedown", window.document.body, { which: 1 }, CustomEvent);
         expect(fp.isOpen).toBe(false);
         expect(fp.selectedDates.length).toBe(0);
